@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,8 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found with passed ID");
         }
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/users/{userId}")
     public ResponseEntity<Object> getAllPostsByUserId(@PathVariable(name = "userId") UUID userId){
         try {

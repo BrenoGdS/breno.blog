@@ -23,12 +23,10 @@ public class PostModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID postId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "authorId", referencedColumnName = "userId", nullable = false)
     @JsonBackReference
     private UserModel author;
-
     private String title;
     private String content;
     private LocalDateTime creationDate;

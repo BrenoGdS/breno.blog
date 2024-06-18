@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
 
-public record UserRecordDto(UUID userId, @NotBlank String name, @NotBlank String password) {
+public record UserRecordDto(UUID userId, @NotBlank String userName, @NotBlank String password) {
 }

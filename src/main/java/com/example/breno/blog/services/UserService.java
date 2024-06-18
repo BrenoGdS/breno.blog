@@ -7,6 +7,7 @@ import com.example.breno.blog.models.dtos.UserRecordDto;
 import com.example.breno.blog.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +27,9 @@ public class UserService {
     public UserRecordDto saveUser(NewUserRecordDto newUserRecordDto){
         UserModel userModel = new UserModel();
         BeanUtils.copyProperties(newUserRecordDto, userModel);
+        userModel.setPassword(new BCryptPasswordEncoder().encode(newUserRecordDto.password()));
         userModel = userRepository.save(userModel);
-        return new UserRecordDto(userModel.getUserId(), userModel.getName(), userModel.getPassword());
+        return new UserRecordDto(userModel.getUserId(), userModel.getUserName(), userModel.getPassword());
     }
 
     public UserModel getUser(UUID userID){

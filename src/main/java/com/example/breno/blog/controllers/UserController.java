@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,14 +35,16 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<Object> getUser(@PathVariable UUID userId){
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(userService.getUser(userId));
+            return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(userId));
         } catch (UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with passed id.");
         }
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping
     ResponseEntity<List<UserModel>> getAllUsers(){
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.getAllUsers());
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
     }
 
 }
